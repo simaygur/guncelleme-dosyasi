@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Veri Güncelleme</title>
+</head>
+<body>
+  <h1>Veri Güncelleme</h1>
+  <div id="notification">Henüz veri alınmadı.</div>
+
+  <h2>SQL Bağlantı Bilgileri</h2>
+  <form id="sql-config-form">
+    <label for="server">Sunucu:</label>
+    <input type="text" id="server" required><br>
+
+    <label for="database">Veritabanı:</label>
+    <input type="text" id="database" required><br>
+
+    <label for="user">Kullanıcı:</label>
+    <input type="text" id="user" required><br>
+
+    <label for="password">Şifre:</label>
+    <input type="password" id="password" required><br>
+
+    <label for="encrypt">Şifreleme:</label>
+    <select id="encrypt">
+      <option value="true">Evet</option>
+      <option value="false">Hayır</option>
+    </select><br>
+
+    <label for="trustServerCertificate">Sunucu Sertifikasına Güven:</label>
+    <select id="trustServerCertificate">
+      <option value="true">Evet</option>
+      <option value="false">Hayır</option>
+    </select><br>
+
+    <button type="submit">Bağlan</button>
+  </form>
+  <div id="status"></div>
+
+  <script>
+    document.getElementById('sql-config-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const config = {
+        server: document.getElementById('server').value,
+        database: document.getElementById('database').value,
+        user: document.getElementById('user').value,
+        password: document.getElementById('password').value,
+        options: {
+          encrypt: document.getElementById('encrypt').value === "true",
+          trustServerCertificate: document.getElementById('trustServerCertificate').value === "true"
+        }
+      };
+
+      window.electronAPI.sendConfig(config);
+      document.getElementById('status').innerText = "Bağlanmaya çalışılıyor...";
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.electronAPI) {
+        console.log('electronAPI yüklendi:', window.electronAPI);
+        window.electronAPI.onDataUpdate((event, newData) => {
+          console.log('Güncelleme alındı:', newData);
+          document.getElementById('notification').innerText = `Yeni Değer: ${newData}`;
+        });
+
+        window.electronAPI.onSqlStatus((event, status) => {
+          document.getElementById('status').innerText = status;
+        });
+      } else {
+        console.error("electronAPI tanımlı değil! Preload script çalışmamış olabilir.");
+      }
+    });
+  </script>
+</body>
+</html> 
