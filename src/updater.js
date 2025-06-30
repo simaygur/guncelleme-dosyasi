@@ -2,7 +2,7 @@ const { autoUpdater } = require('electron-updater');
 const { dialog } = require('electron');
 
 function initializeAutoUpdater() {
-  autoUpdater.checkForUpdates();
+  autoUpdater.checkForUpdatesAndNotify();
 
   autoUpdater.on('update-available', () => {
     dialog.showMessageBox({
