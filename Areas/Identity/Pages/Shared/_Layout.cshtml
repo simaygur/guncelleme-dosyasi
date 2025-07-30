@@ -1,3 +1,6 @@
+@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -9,7 +12,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 
     <!-- Sayfaya özel stil dosyası için section -->
-    @RenderSection("Styles", required: false)
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <div class="container mt-5">
@@ -21,6 +24,6 @@
     </footer>
 
     <!-- Sayfaya özel script bölümü -->
-    @RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
