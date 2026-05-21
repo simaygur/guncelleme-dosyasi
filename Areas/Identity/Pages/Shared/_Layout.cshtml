@@ -1,0 +1,33 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - nexsolCrmNew</title>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", required: false)
+    }
+</head>
+<body>
+    <div class="container mt-5">
+        @RenderBody()
+    </div>
+
+    <footer class="text-center mt-5">
+        <p>&copy; @DateTime.Now.Year - nexsolCrmNew</p>
+    </footer>
+
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: false)
+    }
+</body>
+</html>
